@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+    <title>
+        Registrar
+    </title>
+
+    <head>
+        <style>
+            body{
+            background: skyblue;
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+            color: #fff;
+            padding: 30px;
+            }
+            h1{
+            font-size: 48px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            text-align: center;
+            }
+            p{
+            font-size: 16px;
+            text-align: center;
+            }
+        </style>
+    </head>
+
+    <body>
+        <% include partials/navBar.ejs %>
+
+        <h1>Contact Us!</h1>
+
+        <p>Thanks for getting in touch!</p>
+        
+        <h2>Usuarios</h2>
+
+        <ul>
+            <% data.forEach(function(usuario) { %>
+                <li><%= usuario.nombre %></li>
+            <% }) %>
+        </ul>
+    </body>
+</html>
