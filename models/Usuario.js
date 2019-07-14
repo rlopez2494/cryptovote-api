@@ -1,6 +1,6 @@
 const mongoose = require('mongoose')
 
-mongoose.connect('mongodb+srv://robert:XT1671.motog@tmcluster-ha3b6.mongodb.net/test?retryWrites=true&w=majority', {useNewUrlParser: true})
+mongoose.connect('mongodb://localhost:27017/cryptovote', {useNewUrlParser: true})
 
 const usuarioSchema = new mongoose.Schema({
     cedula: String,

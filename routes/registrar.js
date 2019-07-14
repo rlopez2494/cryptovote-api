@@ -8,12 +8,25 @@ const Usuario = require('../models/Usuario');
 
 //Routers
 
-//GET Requests
-router.get('/', function (req, res, next) {
+//GET requests
+router.get('/', function(req, res) {
     Usuario.find({}, function(err, data) {
-        if (err) throw err;
-        res.send(data);
+        if (err) throw err
+        res.send(data)
     })
+})
+
+//GET Requests con ID
+router.get('/:nombre', function (req, res) {
+    const nombre = req.params.nombre
+
+    Usuario.find({nombre: nombre}, function(err, data) {
+
+        if (err) throw err;
+
+        res.status(200).send(data);
+      
+    });
 })
 
 //POST requests
@@ -27,10 +40,9 @@ router.post('/', function (req, res, next) {
 
     newUsuario.save(function (err, data) {
         if (err) {
-            console.log(err);
-            throw err;
-        }     
-        res.send(data);
+            throw err
+        }    
+        res.status(200).send(data)
     })
 
     newUsuario.hablar()
