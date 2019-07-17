@@ -20,16 +20,16 @@ router.post('/', function(req, res, next) {
 
   if (req.body.cedula) {
 
-    Usuario.find({cedula: req.body.cedula}, function (err, data) {
+    Usuario.findOne({cedula: req.body.cedula}, function (err, data) {
       if (err) throw err
   
-      if (data.length > 0) {
+      if (data) {
   
-        if ((req.body.password !== "") && bcrypt.compareSync(req.body.password, data[0].password)) {
+        if ((req.body.password !== "") && bcrypt.compareSync(req.body.password, data.password)) {
 
 
           //Generate Token
-          const user = {'_id': data[0]['_id']}
+          const user = {'_id': data['_id']}
 
           jwt.sign({user}, 'secretKey', (err, token) => {
 
@@ -39,9 +39,17 @@ router.post('/', function(req, res, next) {
           })
 
         }
-        else res.sendStatus(403)
+        else res.send({
+          error: {
+            message: 'Clave incorrecta'
+          }
+        })
   
-      } else res.sendStatus(403)   
+      } else res.send({
+        error: {
+          message: 'El usuario no existe'
+        }
+      })  
 
     })
   } else res.send("ingrese su cedula")
