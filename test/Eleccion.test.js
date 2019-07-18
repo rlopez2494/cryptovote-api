@@ -49,7 +49,6 @@ describe('Eleccion Model Tests', function() {
             done();
         })
 
-
     })
 
 })

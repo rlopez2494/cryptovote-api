@@ -1,7 +1,8 @@
 const mongoose = require('mongoose')
 const dbConnect = require('../config/dbConnect');
 
-//dbConnect();
+//Connect to the database
+dbConnect();
 
 const usuarioSchema = new mongoose.Schema({
     cedula: Number,

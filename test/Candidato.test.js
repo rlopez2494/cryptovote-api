@@ -19,7 +19,6 @@ describe('Candidato Model Tests', function() {
                 adminId: 'adminId'
             }],
             fechaRegistro: '2010-12-12',
-            eleccionId: '',
             adminId: ''
         })
 

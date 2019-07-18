@@ -16,7 +16,7 @@ before(function(done) {
 })
 
 beforeEach(function(done) {
-    mongoose.connection.collections.usuarios.drop(function() {
+    mongoose.connection.db.dropDatabase(function() {
         done()
     })
 })

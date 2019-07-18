@@ -7,7 +7,6 @@ const candidatoSchema = new mongoose.Schema({
     candidadVotos: Number,
     partidos: [partidoSchema],
     fechaRegistro: Date,
-    eleccionId: String,
     adminId: String
 })
 
