@@ -7,4 +7,4 @@ const partidoSchema = new mongoose.Schema({
     adminId: String
 })
 
-module.exports = partidoSchema
+module.exports = partidoSchema;

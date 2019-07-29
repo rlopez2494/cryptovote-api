@@ -17,7 +17,7 @@ var bcrypt = require('bcryptjs');
 
 //Recibir login-form
 router.post('/', function(req, res, next) {
-
+  console.log(req.body);
   if (req.body.cedula) {
 
     Usuario.findOne({cedula: req.body.cedula}, function (err, data) {
@@ -39,20 +39,12 @@ router.post('/', function(req, res, next) {
           })
 
         }
-        else res.send({
-          error: {
-            message: 'Clave incorrecta'
-          }
-        })
+        else res.status(403).send({error: "Clave incorrecta"});
   
-      } else res.send({
-        error: {
-          message: 'El usuario no existe'
-        }
-      })  
+      } else res.status(401).send({error: "El usuario no existe"}); 
 
     })
-  } else res.send("ingrese su cedula")
+  } else res.send("Ingrese su cedula");
 
 
 

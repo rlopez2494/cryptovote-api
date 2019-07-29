@@ -11,6 +11,7 @@ const usuariosRouter = require('./routes/usuarios');
 const registroRouter = require('./routes/registro');
 const candidatosRouter = require('./routes/admin/candidatos');
 const eleccionesRouter = require('./routes/admin/elecciones');
+const votosRouter = require('./routes/votos');
 
 
 var app = express();
@@ -36,6 +37,7 @@ app.use('/usuarios', usuariosRouter);
 app.use('/registro', registroRouter);
 app.use('/candidatos', candidatosRouter);
 app.use('/elecciones', eleccionesRouter);
+app.use('/votos', votosRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
