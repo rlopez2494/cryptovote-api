@@ -7,7 +7,7 @@ const cors = require('cors')
 
 const indexRouter = require('./routes/index');
 const loginRouter = require('./routes/login');
-const usuariosRouter = require('./routes/usuarios');
+const usuarioRouter = require('./routes/usuario');
 const registroRouter = require('./routes/registro');
 const candidatosRouter = require('./routes/admin/candidatos');
 const eleccionesRouter = require('./routes/admin/elecciones');
@@ -33,7 +33,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 //Routes
 app.use('/', indexRouter);
 app.use('/login', loginRouter);
-app.use('/usuarios', usuariosRouter);
+app.use('/usuario', usuarioRouter);
 app.use('/registro', registroRouter);
 app.use('/candidatos', candidatosRouter);
 app.use('/elecciones', eleccionesRouter);
