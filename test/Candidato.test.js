@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 const assert = require('assert');
-const Candidato = require('../models/Candidato').Candidato;
+const Plancha = require('../models/Plancha').Plancha;
 
 
 describe('Candidato Model Tests', function() {
@@ -9,7 +9,7 @@ describe('Candidato Model Tests', function() {
 
     it('Saves a record to the database', function(done) {
         
-        newCandidato = new Candidato({
+        newPlancha = new Plancha({
             userId: '',
             candidadVotos: 0,
             partidos: [{
@@ -22,7 +22,7 @@ describe('Candidato Model Tests', function() {
             adminId: ''
         })
 
-        newCandidato.save(function(err) {
+        newPlancha.save(function(err) {
             if(err) throw err;
             assert(!newCandidato.isNew);
             done()

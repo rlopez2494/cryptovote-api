@@ -10,7 +10,7 @@
  module.exports = async function(req, res, next) {
 
     //Extraer token del header
-    const bearerHeader = req.headers['authorization']
+    const bearerHeader = req.body.headers['authorization']
 
     //verificar si es nulo
     if (typeof bearerHeader !== 'undefined') {

@@ -3,10 +3,10 @@ const router = express.Router();
 
 const jwt = require('jsonwebtoken');
 
-const validateToken = require('../middleware/verifyToken');
+const verifyToken = require('../middleware/verifyToken');
 
 //POST request
-router.post('/', validateToken, function (req, res, next) {
+router.post('/', verifyToken, function (req, res, next) {
 
     //Decoding data
     jwt.verify(req.token, 'secretKey', function (err, decodedData) {

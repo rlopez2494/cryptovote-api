@@ -29,7 +29,9 @@ router.post('/', function(req, res, next) {
 
 
           //Generate Token
-          const user = {'_id': data['_id']}
+          const user = {
+            '_id': data['_id']
+          }
 
           jwt.sign({user}, 'secretKey', (err, token) => {
 

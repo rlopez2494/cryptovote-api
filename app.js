@@ -9,7 +9,7 @@ const indexRouter = require('./routes/index');
 const loginRouter = require('./routes/login');
 const usuarioRouter = require('./routes/usuario');
 const registroRouter = require('./routes/registro');
-const candidatosRouter = require('./routes/admin/candidatos');
+const planchasRouter = require('./routes/admin/planchas');
 const eleccionesRouter = require('./routes/admin/elecciones');
 const votosRouter = require('./routes/votos');
 
@@ -35,7 +35,7 @@ app.use('/', indexRouter);
 app.use('/login', loginRouter);
 app.use('/usuario', usuarioRouter);
 app.use('/registro', registroRouter);
-app.use('/candidatos', candidatosRouter);
+app.use('/planchas', planchasRouter);
 app.use('/elecciones', eleccionesRouter);
 app.use('/votos', votosRouter);
 
