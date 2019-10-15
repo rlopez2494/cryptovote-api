@@ -10,32 +10,11 @@ router.get('/', function(req, res) {
 });
 
 router.post('/', function(req, res) {
-
+    console.log(req.body)
     newPlancha = new Plancha({
-        numero: 4,
-
-        juntaDirectiva: {
-            presidente: "Robert Lopez",
-            vicepresidente: "Simon ",
-            tesorero: "Alberro",
-            secretarioGeneral: "mengano"
-        },
-
-        tribunalDisciplinario: {
-            presidente: "filomeno",
-            vicepresidente: "mangorro",
-            secretarioGeneral: "chevere"
-        },
-
-        juntaDirectivaDeCentro: {
-            presidente: "no chevere",
-            vicepresidente: "muy cool",
-            tesorero: "excelente",
-            secretarioGeneral: "capluidb"
-        },
-
+        ...req.body,
         fechaRegistro: "2010-12-12"
-        })
+    })
 
     newPlancha.save(function(err, data) {
         if(err) throw err;

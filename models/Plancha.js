@@ -2,8 +2,6 @@ const mongoose = require('mongoose');
 
 
 const planchaSchema = new mongoose.Schema({
-    numero: Number,
-
     juntaDirectiva: {
         presidente: String,
         vicepresidente: String,
