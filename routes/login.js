@@ -12,6 +12,7 @@ app.set('view engine', 'ejs')
 //Modelos
 const Usuario = require('../models/Usuario')
 
+//bcrypt
 var bcrypt = require('bcryptjs');
 
 
@@ -24,26 +25,50 @@ router.post('/', function(req, res, next) {
       if (err) throw err
   
       if (data) {
+
+        if(req.body.isAdmin) {
+
+          if(req.body.isAdmin === data.isAdmin) {
+
+            if ((req.body.password !== "") && bcrypt.compareSync(req.body.password, data.password)) {
   
-        if ((req.body.password !== "") && bcrypt.compareSync(req.body.password, data.password)) {
+              //Generate Token
+              const user = {
+                '_id': data['_id']
+              }
+    
+              jwt.sign({user}, 'secretKey', (err, token) => {
+    
+                if(err) throw err;
+    
+                res.send(token); 
+              })
+  
+            } else res.status(403).send("Clave incorrecta");
 
+          } else res.status(403).send("No eres administrador")
+          
+        } else {
 
-          //Generate Token
-          const user = {
-            '_id': data['_id']
-          }
+          if ((req.body.password !== "") && bcrypt.compareSync(req.body.password, data.password)) {
+  
+            //Generate Token
+            const user = {
+              '_id': data['_id']
+            }
+  
+            jwt.sign({user}, 'secretKey', (err, token) => {
+  
+              if(err) throw err;
+  
+              res.send(token); 
+            })
 
-          jwt.sign({user}, 'secretKey', (err, token) => {
-
-            if(err) throw err;
-
-            res.send(token); 
-          })
+          } else res.status(403).send("Clave incorrecta");
 
         }
-        else res.status(403).send({error: "Clave incorrecta"});
   
-      } else res.status(401).send({error: "El usuario no existe"}); 
+      } else res.status(401).send("El usuario no existe");
 
     })
   } else res.send("Ingrese su cedula");
