@@ -5,17 +5,36 @@ const Voto = require('../models/Voto').Voto;
 
 //Dummy Data para el registro de votos
 const VotoExterno = {
-    userId: "userId",
-    candidatoId: "candiId",
-    partidoId: "PartiID",
-    timeStamp: 2010-10-10,
-    eleccionId: "eleccionID",
+    juntaDirectiva: {
+        presidente: "Robert Lopez",
+        vicepresidente: "Simon Garcia",
+        tesorero: "Noreen Scheffel",
+        secretarioGeneral: "Gabriel Ramirez",
+        votoLista: "Somos"
+    },
+
+    tribunalDisciplinario: {
+        presidente: "Robert",
+        vicepresidente: "gabriel",
+        secretarioGeneral: "ramon",
+        votoLista: "no se "
+    },
+
+    juntaDirectivaDeCentro: {
+        presidente: "Simona",
+        vicepresidente: "Noroon",
+        tesorero: "Ramon",
+        secretarioGeneral: "Gabriela rojas",
+        votoLista: "ratita"
+    },
+
+    fechaRegistro:"2010-05-24"
 };
 
 
 //GET REQUEST
 router.get('/', function(req, res) {
-
+    
     Voto.find({}, function(err, data) {
 
         if(err) throw err;
@@ -27,7 +46,7 @@ router.get('/', function(req, res) {
 
 //POST REQUEST
 router.post('/', function(req, res) {
-
+    console.log(req.body)
     const newVoto = new Voto(VotoExterno);
     
     newVoto.save(function(err, data) {

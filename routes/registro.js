@@ -4,7 +4,7 @@ let router = express.Router();
 var bcrypt = require('bcryptjs');
 
 //Models imports
-const Usuario = require('../models/Usuario');
+const Usuario = require('../models/Usuario').Usuario;
 
 //Routers
 
