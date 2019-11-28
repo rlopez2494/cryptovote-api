@@ -1,3 +1,4 @@
+// Express & Toolkit
 const createError = require('http-errors');
 const express = require('express');
 const path = require('path');
@@ -5,6 +6,7 @@ const cookieParser = require('cookie-parser');
 const logger = require('morgan');
 const cors = require('cors')
 
+// Routes imports
 const indexRouter = require('./routes/index');
 const loginRouter = require('./routes/login');
 const usuarioRouter = require('./routes/usuario');
@@ -20,7 +22,6 @@ var app = express();
 app.set('views', path.join(__dirname, 'views'));
 
 app.set('view engine', 'jade');
-app.set('view,template', 'ejs');
 
 //Middlewares
 app.use(cors());

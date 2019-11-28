@@ -1,28 +1,29 @@
 const mongoose = require('mongoose');
-
+const usuarioSchema = require('../models/Usuario').usuarioSchema
 
 const planchaSchema = new mongoose.Schema({
+    numero: Number,
+
     juntaDirectiva: {
-        presidente: String,
-        vicepresidente: String,
-        tesorero: String,
-        secretarioGeneral: String
+        presidente: usuarioSchema,
+        vicepresidente: usuarioSchema,
+        tesorero: usuarioSchema,
+        secretarioGeneral: usuarioSchema
     },
 
     tribunalDisciplinario: {
-        presidente: String,
-        vicepresidente: String,
-        secretarioGeneral: String
+        presidente: usuarioSchema,
+        vicepresidente: usuarioSchema,
+        secretarioGeneral: usuarioSchema
     },
 
     juntaDirectivaDeCentro: {
-        presidente: String,
-        vicepresidente: String,
-        tesorero: String,
-        secretarioGeneral: String
+        presidente: usuarioSchema,
+        vicepresidente: usuarioSchema,
+        tesorero: usuarioSchema,
+        secretarioGeneral: usuarioSchema
     },
 
-    fechaRegistro:Date
 })
 
 const Plancha = mongoose.model('Plancha', planchaSchema);

@@ -5,16 +5,17 @@ const dbConnect = require('../config/dbConnect');
 dbConnect();
 
 const usuarioSchema = new mongoose.Schema({
-    cedula: Number,
     nombre: String,
+    CIV: Number,
     apellido: String,
-    fechaNacimiento: Date,
-    sexo: String,
+    cedula: Number,
     password: String,
     correo: String,
     isAdmin: Boolean,
     imgUrl: String,
-    puedeVotar: Boolean
+    puedeVotar: Boolean,
+    plancha: Number,
+    cantidadVotos: Number
 })
 
 usuarioSchema.methods.hablar = function () {
@@ -27,4 +28,4 @@ usuarioSchema.methods.hablar = function () {
 
 const Usuario = mongoose.model('Usuario', usuarioSchema)
 
-module.exports = Usuario;
+module.exports = {Usuario, usuarioSchema};
