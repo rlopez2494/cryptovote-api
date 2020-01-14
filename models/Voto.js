@@ -1,31 +1,37 @@
-const mongoose = require('mongoose');
+const mongoose = require('mongoose')
+const Schema = mongoose.Schema
 
-const votoSchema = new mongoose.Schema({
+const juntaDirectivaSchema = require('../models/schemas/juntaDirectiva')
+const juntaDirectivaDeCentroSchema = require('../models/schemas/juntaDirectivaDeCentro')
+const tribunalDisciplinarioSchema = require('../models/schemas/tribunalDisciplinario')
+
+const votoSchema = new Schema({
 
     juntaDirectiva: {
-        presidente: String,
-        vicepresidente: String,
-        tesorero: String,
-        secretarioGeneral: String,
-        votoLista: String
-    },
-
-    tribunalDisciplinario: {
-        presidente: String,
-        vicepresidente: String,
-        secretarioGeneral: String,
-        votoLista: String
+        type: juntaDirectivaSchema,
+        required: true
     },
 
     juntaDirectivaDeCentro: {
-        presidente: String,
-        vicepresidente: String,
-        tesorero: String,
-        secretarioGeneral: String,
-        votoLista: String
+        type: juntaDirectivaDeCentroSchema,
+        required: true
     },
 
-    fechaRegistro:Date
+    tribunalDisciplinario: {
+        type: tribunalDisciplinarioSchema,
+        required: true
+    },
+
+    fechaRegistro:{
+        type: Date,
+        required: true
+    },
+
+    usuario: {
+        type: Schema.Types.ObjectId,
+        ref: 'Usuario',
+        required: true
+    }
     
 })
 

@@ -10,7 +10,7 @@ const jwt = require('jsonwebtoken')
 app.set('view engine', 'ejs')
 
 //Modelos
-const Usuario = require('../models/Usuario')
+const User = require('../models/User').User
 
 //bcrypt
 var bcrypt = require('bcryptjs');
@@ -21,7 +21,7 @@ router.post('/', function(req, res, next) {
   console.log(req.body);
   if (req.body.cedula) {
 
-    Usuario.findOne({cedula: req.body.cedula}, function (err, data) {
+    User.findOne({cedula: req.body.cedula}, function (err, data) {
       if (err) throw err
   
       if (data) {

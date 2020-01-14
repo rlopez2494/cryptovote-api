@@ -1,35 +1,26 @@
-const mongoose = require('mongoose');
-const votoSchema = require('./Voto').votoSchema;
-const usuarioSchema = require('./Usuario').usuarioSchema
-//console.log("AQUI COMIENZA: ", candidatoSchema);
+const mongoose = require('mongoose')
+const Schema = mongoose.Schema
 
-const eleccionSchema = new mongoose.Schema({
-    juntaDirectiva: {
-        presidente: [usuarioSchema],
-        vicepresidente: [usuarioSchema],
-        tesorero: [usuarioSchema],
-        secretarioGeneral: [usuarioSchema],
-        votoLista: [usuarioSchema]
+const eleccionSchema = new Schema({
+    planchas: [{
+        type: Schema.Types.ObjectId,
+        ref: 'Plancha',
+        default: []
+    }],
+    fechaCreacion: {
+        required: true,
+        type: Date
     },
-
-    tribunalDisciplinario: {
-        presidente: [usuarioSchema],
-        vicepresidente: [usuarioSchema],
-        secretarioGeneral: [usuarioSchema],
-        votoLista: [usuarioSchema]
-    },
-
-    juntaDirectivaDeCentro: {
-        presidente: [usuarioSchema],
-        vicepresidente: [usuarioSchema],
-        tesorero: [usuarioSchema],
-        secretarioGeneral: [usuarioSchema],
-        votoLista: [usuarioSchema]
-    },
-
-    fechaRegistro:Date
+    admins: [{
+        type: Schema.Types.ObjectId,
+        ref: 'Usuario'
+    }],
+    actualizadoDate: {
+        type: Date,
+        required: true
+    }
 })
 
-const Eleccion = new mongoose.model('Eleccion', eleccionSchema);
+const Eleccion = mongoose.model('Eleccion', eleccionSchema)
 
-module.exports = Eleccion; 
+module.exports = Eleccion
