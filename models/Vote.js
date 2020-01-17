@@ -5,7 +5,7 @@ const juntaDirectivaSchema = require('../models/schemas/juntaDirectiva')
 const juntaDirectivaDeCentroSchema = require('../models/schemas/juntaDirectivaDeCentro')
 const tribunalDisciplinarioSchema = require('../models/schemas/tribunalDisciplinario')
 
-const votoSchema = new Schema({
+const voteSchema = new Schema({
 
     juntaDirectiva: {
         type: juntaDirectivaSchema,
@@ -24,10 +24,9 @@ const votoSchema = new Schema({
 
     fechaRegistro:{
         type: Date,
-        required: true
     },
 
-    usuario: {
+    user: {
         type: Schema.Types.ObjectId,
         ref: 'Usuario',
         required: true
@@ -35,6 +34,6 @@ const votoSchema = new Schema({
     
 })
 
-const Voto = mongoose.model('Voto', votoSchema);
+const Vote = mongoose.model('Voto', voteSchema);
 
-module.exports = {Voto, votoSchema}
+module.exports = {Vote, voteSchema}

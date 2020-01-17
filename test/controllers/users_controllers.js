@@ -36,6 +36,9 @@ describe('Users controllers ', () => {
         supertest(app)
             .get('/users')
             .end((err, response) => {
+                if(err) {
+                    throw err
+                }
                 assert(response.body[0]._id === newUser._id.toString())
                 done()
             })
@@ -46,6 +49,9 @@ describe('Users controllers ', () => {
         supertest(app)
             .get(`/users/${newUser._id.toString()}`)
             .end((err, response) => {
+                if(err) {
+                    throw err
+                }
                 assert(response.body._id === newUser._id.toString())
                 done()
             })
@@ -55,7 +61,10 @@ describe('Users controllers ', () => {
         supertest(app)
             .put(`/users/${newUser._id.toString()}`)
             .send({ sesion: true })
-            .end(() => {
+            .end((err, response) => {
+                if(err) {
+                    throw err
+                }
                 User.findById(newUser._id.toString())
                     .then(user => {
                         assert(user.sesion === true)

@@ -20,26 +20,23 @@ describe('Plate/party request handling', () => {
 
     // Save users and a plate/party before test begins
     beforeEach((done) => { 
-        testUsers.forEach( async(user) => {
-
-            try {
-                const newUser = new User(user)
-                const savedUser = await newUser.save()
-            } catch (error) {
-                throw error
-            }
-            
-            
+        let users = []
+        testUsers.forEach((user) => {
+            const newUser = new User(user)
+            users.push(newUser)
         })
 
-        setTimeout(() => {
-            User.find({})
-                .then((data) => {
-                    assert(data.length > 15)
-                    // Function to create a party
-                    createPlate(testPlate, app, done)
+        Promise.all( users.map( (user) => user.save() ) )
+            .then((data) => {
+                data.forEach( result => {
+                    assert(typeof(result) === 'object')
                 })
-        }, 2000)
+                createPlate(testPlate, app, done)
+            })
+            .catch(err => {
+                throw err
+            })
+        
         
     });
 

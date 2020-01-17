@@ -7,6 +7,10 @@ module.exports = function createPlate(testPlate, app, done) {
             .post('/plates')
             .send(testPlate)
             .end((err, response) => {
+
+                if(err) {
+                    throw err
+                }
                  
                 const { juntaDirectiva, juntaDirectivaDeCentro, tribunalDisciplinario } = testPlate
                 const testPick = {

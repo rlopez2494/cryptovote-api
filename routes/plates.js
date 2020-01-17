@@ -67,48 +67,38 @@ router.post('/', async(req, res) => {
                 })
                 
                 // Saving candidates and pushing the response data in an array 
-                const candidate = await newCandidate.save()
-                candidates.push(candidate)
+                candidates.push(newCandidate)
 
             })
         })
-        
-        // IMPORTANT: setTimeout() placed as a fast fix to an
-        // asyncronous bug im working on
-        setTimeout(() => {
 
+        Promise.all( candidates.map( candidate => candidate.save() ) )
+            .then(data => {
 
-            // Loop to insert candidates in the seat and 
-            // the body where each of then belongs as candidates
-            Object.keys(plateBodies).forEach(body => {
-                Object.keys(plateBodies[body]).forEach(seat => {
+                Object.keys(plateBodies).forEach(body => {
+                    Object.keys(plateBodies[body]).forEach(seat => {
+                        
+                        const candidateMatch = data
+                            .find(candidate => candidate.user._id.toString() === plateBodies[body][seat])
+                        
+                        if(!newPlate[body]) {
                     
-                    const candidateMatch = candidates
-                        .find(candidate => candidate.user._id.toString() === plateBodies[body][seat])
-                    
-                    if(!newPlate[body]) {
+                            newPlate[body] = {}
+                        }     
+    
+                        newPlate[body][seat] = {}
+                        newPlate[body][seat] = candidateMatch               
+                        
+                    })
+                })
                 
-                        newPlate[body] = {}
-                    }     
-
-                    newPlate[body][seat] = {}
-                    newPlate[body][seat] = candidateMatch               
-                    
-                })
+                return newPlate.save()
             })
+            .then( (data) => res.send(data) )
+            .catch( (err) => res.status(500).send(err) ) 
 
-            // Saving the plate/party Model and send the data as response
-            newPlate.save()
-                .then(plate => {
-                    return res.send(plate)
-                })
-                .catch(err => {
-                    return res.send(err)
-                })
-        }, 6000);
-
-    } catch (error) {
-        return res.send(error)
+    } catch (err) {
+        return res.status(400).send(err)
     }
 
 })

@@ -18,7 +18,7 @@ const plateSchema = new Schema({
     
     votos: [{
         type: Schema.Types.ObjectId,
-        ref: 'Voto',
+        ref: 'Vote',
         default: []
     }],
 
