@@ -15,6 +15,7 @@ const loginRouter = require('./routes/login');
 const usersRouter = require('./routes/users');
 const platesRouter = require('./routes/plates');
 const votesRouter = require('./routes/votes');
+const CIVUsersRouter = require('./routes/civ-users');
 
 var app = express();
 
@@ -32,6 +33,7 @@ app.use('/login', loginRouter);
 app.use('/users', usersRouter);
 app.use('/plates', platesRouter);
 app.use('/votes', votesRouter);
+app.use('/civ-users', CIVUsersRouter);
 
 
 // catch 404 and forward to error handler

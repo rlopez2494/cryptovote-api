@@ -6,9 +6,6 @@ const app = express()
 //Accesorios
 const jwt = require('jsonwebtoken')
 
-//engines
-app.set('view engine', 'ejs')
-
 //Modelos
 const User = require('../models/User').User
 

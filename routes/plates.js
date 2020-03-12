@@ -132,8 +132,7 @@ router.get('/:id', async(req, res) => {
     } catch (err) {
         res.status(400).send(err)
     }
-})
-    
+})  
 
 // DELETE
 router.delete('/', function(req, res) {

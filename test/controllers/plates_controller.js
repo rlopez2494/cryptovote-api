@@ -48,6 +48,7 @@ describe('Plate/party request handling', () => {
                 if(err) {
                     throw err
                 }
+                console.log(response.body[0])
                 assert(response.body.length > 0)
                 done()
             })  

@@ -1,3 +1,4 @@
 package-lock.json
 node_modules
 bin
+test/test_data/registerUsers.js

@@ -21,7 +21,6 @@ module.exports = function createPlate(testPlate, app, done) {
 
                 // Checks if all users are in their respective
                 // seats and bodies as candidates
-
                 Object.keys(testPick).forEach( body => {
                     Object.keys(testPlate[body]).forEach( seat => {
                         const _id = response.body[body][seat].user._id.toString()

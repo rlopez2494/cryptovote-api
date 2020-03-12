@@ -1,7 +1,7 @@
-const mongoose = require('mongoose')
-const Schema = mongoose.Schema
+const mongoose = require('mongoose');
+const Schema = mongoose.Schema;
 
-const userSchema = new Schema({
+const civSchema = new Schema({
     nombre: {
         type: String,
         required: true,
@@ -15,7 +15,7 @@ const userSchema = new Schema({
     CIV: {
         type: Number,
         required: true,
-        trim: true
+        trim: true,
     },
     cedula: {
         type: Number,
@@ -42,16 +42,8 @@ const userSchema = new Schema({
     password: {
         type: String,
     }
-})
+});
 
-userSchema.methods.hablar = function () {
-    var saludo = this.nombre ? 
-    "mi nombre es" + this.nombre :
-    "no tengo nombre";
+const CIVUser = mongoose.model('CIVUser', civSchema);
 
-    console.log(saludo);
-}
-
-const User = mongoose.model('User', userSchema)
-
-module.exports = { User, userSchema }
+module.exports = CIVUser;
