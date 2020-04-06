@@ -46,7 +46,7 @@ router.get('/list/:id', async(req, res) => {
 
         const users = await User.find({
             $where: `this.CIV.toString().match(${req.params.id})`
-        })
+        }, '_id nombre apellido CIV');
     
         if(!(users.length > 0)) {
             return res.status(404).send( { status: 'not found' } );
@@ -56,6 +56,26 @@ router.get('/list/:id', async(req, res) => {
 
     } catch (error) {
         res.status(400).send(error);
+    }
+})
+
+// GET User List By CIV
+
+router.post('/list', async(req, res) => {
+    
+    try {
+
+        console.log(req.body);
+        const users = await User.find({_id: { $in: req.body.users}});
+        if(!(users.length > 0)) {
+            return res.status(404)
+        }
+        res.send(users);
+
+    } catch (error) {
+
+        res.status(500).send(error);
+        
     }
 })
 

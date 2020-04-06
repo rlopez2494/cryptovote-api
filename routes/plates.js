@@ -1,13 +1,14 @@
-// Toolkit
-const express = require('express')
-const router = express.Router()
-const mongoose = require('mongoose')
-const _ = require('underscore')
-
 // Modelos
-const User = require('../models/User').User
+const User= require('../models/User').User
 const Candidate = require('../models/Candidate').Candidate
-const Plate = require('../models/Plate').Plate
+const { Plate, plateSchema } = require('../models/Plate')
+
+// Toolkit
+const express = require('express');
+const router = express.Router();
+const mongoose = require('mongoose')
+const deepPopulate = require('mongoose-deep-populate')(mongoose);
+plateSchema.plugin(deepPopulate);
 
 function getNameByValue(object, value) {
     return Object.keys(object).find( (key) => object[key] === value )
@@ -17,7 +18,14 @@ function getNameByValue(object, value) {
 // CREATE
 router.post('/', async(req, res) => {
 
-    const { juntaDirectiva, tribunalDisciplinario, juntaDirectivaDeCentro, numero } = req.body
+    const { 
+        juntaDirectiva, 
+        tribunalDisciplinario, 
+        juntaDirectivaDeCentro, 
+        numero 
+    } = req.body
+
+    console.log(juntaDirectiva)
 
     // Extraction of the different bodies in the plate/party from 'req.body'
     const plateBodies = {
@@ -27,7 +35,7 @@ router.post('/', async(req, res) => {
     }   
 
     // New plate/party instance 
-    const newPlate = new Plate( { numero } )
+    const newPlate = new Plate({numero});
 
     // Initial data for:
     // Array of users in the req.body
@@ -105,10 +113,23 @@ router.post('/', async(req, res) => {
 
 // READ PLATES
 router.get('/', async (req, res) => {
+    const bodies = ['juntaDirectiva', 'tribunalDisciplinario', 'juntaDirectivaDeCentro'];
+    const seats = ['presidente', 'vicepresidente', 'tesorero', 'secretarioGeneral'];
+    const populations = [];
 
+    bodies.forEach(body => {
+        seats.forEach(seat => {
+            if (!((body === 'tribunalDisciplinario') && (seat === 'tesorero'))) {
+                populations.push(`${body}.${seat}.user`);
+            } 
+        })
+    })
+    
     try {
         const plates = await Plate.find({})
-        res.send(plates)
+            .deepPopulate(populations);
+
+        res.send(plates);
 
     } catch (err) {
         res.status(400).send(err)
