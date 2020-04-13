@@ -1,7 +1,5 @@
 const mongoose = require('mongoose');
 
-// Github test
-
 function dbConnect() {
 
     if (process.env.NODE_ENV !== 'test') {
@@ -20,5 +18,5 @@ function dbConnect() {
     }
 }
 
-dbConnect()
+dbConnect();
 

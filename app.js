@@ -11,7 +11,6 @@ const cors = require('cors')
 
 // Routes imports
 const indexRouter = require('./routes/index');
-const loginRouter = require('./routes/login');
 const usersRouter = require('./routes/users');
 const platesRouter = require('./routes/plates');
 const votesRouter = require('./routes/votes');
@@ -29,7 +28,6 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 //Routes
 app.use('/', indexRouter);
-app.use('/login', loginRouter);
 app.use('/users', usersRouter);
 app.use('/plates', platesRouter);
 app.use('/votes', votesRouter);

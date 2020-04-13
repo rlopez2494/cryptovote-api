@@ -3,25 +3,41 @@ const express = require('express');
 let router = express.Router();
 
 // Sesion toolkit
-const bcrypt = require('bcryptjs');
-const jwt = require('jsonwebtoken');
-const verifyToken = require('../middleware/verifyToken');
+const authenticate = require('../middleware/authenticate');
+
 
 //Models imports
-const User = require('../models/User').User;
+const { User } = require('../models/User');
 
 //Routers
 
 //GET request all
-router.get('/', function(req, res) {
+router.get('/', authenticate, function(req, res) {
+
     User.find({}, function(err, data) {
         if (err) throw err;
         res.send(data);
     })
+});
+
+// Login Users
+router.post('/login', async (req, res) => {
+
+    const { email, password } = req.body;
+
+    try {
+        const user = await User.findByCredentials(email, password);
+        const token = await user.generateAuthToken();
+        
+        res.send({ user, token });
+
+    } catch (e) {
+        return res.status(400).send();
+    }
 })
 
-// GET request by ID
 
+// GET request by ID
 router.get('/:id', async(req, res) => {
     const _id = req.params.id;
 
@@ -36,10 +52,9 @@ router.get('/:id', async(req, res) => {
         res.status(400).send(err);
     }
 
-})
+});
 
 // GET User List By CIV
-
 router.get('/list/:id', async(req, res) => {
     
     try {
@@ -57,7 +72,7 @@ router.get('/list/:id', async(req, res) => {
     } catch (error) {
         res.status(400).send(error);
     }
-})
+});
 
 // GET User List By CIV
 
@@ -77,18 +92,22 @@ router.post('/list', async(req, res) => {
         res.status(500).send(error);
         
     }
-})
+});
 
 // PUT requests
 router.put('/:id', async( req, res ) => {
     const _id = req.params.id;
+
     const updates = Object.keys(req.body);
+
     const allowedUpdates = [
         'isAdmin',
         'solvente',
         'sesion',
-        'password'
+        'password',
+        'email'
     ];
+
     const updateAllowed = updates.every((update) => allowedUpdates.includes(update));
 
     if(!updateAllowed) {
@@ -96,61 +115,50 @@ router.put('/:id', async( req, res ) => {
     }
 
     try {
-        const user = await User.findByIdAndUpdate(_id, req.body);
+        const user = await User.findById(_id);
+
         if (!user) {
             return res.status(404).send();
         }
-        res.send(user);
+
+        updates.forEach((update) => {
+            user[update] = req.body[update]
+        });
+
+        const savedUser = await user.save();
+
+        res.send(savedUser);
+
     } catch (err) {
         res.status(400).send(err);
     }
-})
+});
 
 //POST requests
-router.post('/', function (req, res, next) {
-
-    const { cedula, CIV } = req.body;
+router.post('/', async (req, res, next) => {
+    const { email } = req.body;
     const newUser = User(req.body);
 
-    User.find({
-        $or: [
-            {cedula},
-            {CIV}
-        ]
-    }).then((data) => {
-        if(data.length > 0) {
-           return res.send('El User ya existe')
+    try {
+
+        const matchUsers = await User.find({ $or: [{email}] });
+
+        if (matchUsers.length > 0) {
+            return res.send('email registered');
         }
-        newUser.save().then(data => {
-            res.send(data)
-        }).catch(err => {
-            res.send(err.name)
-        })
-    }).catch(err => { res.send(err.name)});
 
-    newUser.hablar();
+        await newUser.generateAuthToken();
 
-})
+        const user = await newUser.save();
+    
+        res.send(user);
 
-//POST request
-router.post('/sesion', verifyToken, function (req, res, next) {
+    } catch (e) {
+        res.status(400).send(e);
+    }
 
-    //Decoding data
-    jwt.verify(req.token, 'secretKey', function (err, decodedData) {
-        
-        //AQUI SE REALIZAN LAS QUERIES QUE SE VEAN 
-        //EN LA PAGINA PRINCIPAL DEL User
+});
 
-        if (err) {
-
-            res.sendStatus(403);
-
-        };
-
-        res.send(decodedData);
-
-    })
-})
 
 //DELETE requests
 router.delete('/', function (req, res, next) {
@@ -158,7 +166,7 @@ router.delete('/', function (req, res, next) {
         if (err) throw err;
         res.send(data);
         
-    })
+    });
 })
 
 module.exports = router;
