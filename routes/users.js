@@ -12,7 +12,7 @@ const { User } = require('../models/User');
 //Routers
 
 //GET request all
-router.get('/', authenticate, function(req, res) {
+router.get('/', function(req, res) {
 
     User.find({}, function(err, data) {
         if (err) throw err;

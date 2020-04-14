@@ -1,24 +1,24 @@
 const mongoose = require('mongoose')
 const Schema = mongoose.Schema
 
-const juntaDirectivaSchema = require('../models/schemas/juntaDirectiva')
-const juntaDirectivaDeCentroSchema = require('../models/schemas/juntaDirectivaDeCentro')
-const tribunalDisciplinarioSchema = require('../models/schemas/tribunalDisciplinario')
+const directiveBoardSchema = require('./schemas/directiveBoard');
+const districtDirectiveBoardSchema = require('../models/schemas/districtDirectiveBoard');
+const disciplinaryCourtSchema = require('../models/schemas/disciplinaryCourt');
 
 const voteSchema = new Schema({
 
-    juntaDirectiva: {
-        type: juntaDirectivaSchema,
+    directiveBoard: {
+        type: directiveBoardSchema,
         required: true
     },
 
-    juntaDirectivaDeCentro: {
-        type: juntaDirectivaDeCentroSchema,
+    districtDirectiveBoard: {
+        type: districtDirectiveBoardSchema,
         required: true
     },
 
-    tribunalDisciplinario: {
-        type: tribunalDisciplinarioSchema,
+    disciplinaryCourt: {
+        type: disciplinaryCourtSchema,
         required: true
     },
 
@@ -36,4 +36,4 @@ const voteSchema = new Schema({
 
 const Vote = mongoose.model('Voto', voteSchema);
 
-module.exports = {Vote, voteSchema}
+module.exports = { Vote, voteSchema }

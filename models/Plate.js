@@ -1,17 +1,17 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema
 
-const juntaDirectivaSchema = 
-    require('../models/schemas/juntaDirectiva')
+const directiveBoardSchema = 
+    require('./schemas/directiveBoard')
 
-const juntaDirectivaDeCentroSchema = 
-    require('../models/schemas/juntaDirectivaDeCentro')
+const districtDirectiveBoardSchema = 
+    require('../models/schemas/districtDirectiveBoard')
 
-const tribunalDisciplinarioSchema = 
-    require('../models/schemas/tribunalDisciplinario')
+const disciplinaryCourtSchema = 
+    require('../models/schemas/disciplinaryCourt')
 
 const plateSchema = new Schema({
-    numero: {
+    number: {
         type: Number,
         required: true
     },
@@ -22,18 +22,18 @@ const plateSchema = new Schema({
         default: []
     }],
 
-    juntaDirectiva: {
-        type: juntaDirectivaSchema,
+    directiveBoard: {
+        type: directiveBoardSchema,
         required: true
     },
 
-    juntaDirectivaDeCentro: {
-        type: juntaDirectivaDeCentroSchema,
+    districtDirectiveBoard: {
+        type: districtDirectiveBoardSchema,
         required: true
     },
 
-    tribunalDisciplinario: {
-        type: tribunalDisciplinarioSchema,
+    disciplinaryCourt: {
+        type: disciplinaryCourtSchema,
         required: true
     },
 

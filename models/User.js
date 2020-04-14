@@ -16,9 +16,9 @@ const userSchema = new Schema({
     },
     email: {
         type: String,
-        unique: true,
+        // unique: true,
         trim: true,
-        required: true,
+        // required: true,
         lowercase: true,
         validate (value) {
             if (!validator.isEmail(value)) {
@@ -50,7 +50,7 @@ const userSchema = new Schema({
     },
     password: {
         type: String,
-        required: true,
+        // required: true,
         minlength: 7,
         trim: true,
     },

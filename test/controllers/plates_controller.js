@@ -1,29 +1,29 @@
 // Test toolkit
-const assert = require('assert')
-const supertest = require('supertest')
-const app = require('../../app')
-const mongoose = require('mongoose')
+const assert = require('assert');
+const supertest = require('supertest');
+const app = require('../../app');
+const mongoose = require('mongoose');
 
 // Mongoose toolkit
-const Plate = require('../../models/Plate').Plate
-const User = require('../../models/User').User
+const { Plate } = require('../../models/Plate');
+const { User } = require('../../models/User');
 
 // Test data
-const fakeUsers = require('../test_data/fakeUsers')
-const testUsers = fakeUsers.slice(0, 18)
-const testPlate = require('../test_data/fakePlate')
+const fakeUsers = require('../test_data/fakeUsers');
+const testUsers = fakeUsers.slice(0, 18);
+const testPlate = require('../test_data/fakePlate');
 
 // Creators
-const createPlate = require('../creators/plate_create')
+const createPlate = require('../creators/plate_create');
 
 describe('Plate/party request handling', () => {
 
     // Save users and a plate/party before test begins
     beforeEach((done) => { 
-        let users = []
+        let users = [];
         testUsers.forEach((user) => {
-            const newUser = new User(user)
-            users.push(newUser)
+            const newUser = new User(user);
+            users.push(newUser);
         })
 
         Promise.all( users.map( (user) => user.save() ) )
@@ -48,7 +48,6 @@ describe('Plate/party request handling', () => {
                 if(err) {
                     throw err
                 }
-                console.log(response.body[0])
                 assert(response.body.length > 0)
                 done()
             })  

@@ -19,23 +19,22 @@ function getNameByValue(object, value) {
 router.post('/', async(req, res) => {
 
     const { 
-        juntaDirectiva, 
-        tribunalDisciplinario, 
-        juntaDirectivaDeCentro, 
-        numero 
+        directiveBoard, 
+        disciplinaryCourt, 
+        districtDirectiveBoard, 
+        number 
     } = req.body
 
-    console.log(juntaDirectiva)
 
     // Extraction of the different bodies in the plate/party from 'req.body'
     const plateBodies = {
-        juntaDirectiva,
-        tribunalDisciplinario,
-        juntaDirectivaDeCentro
+        directiveBoard,
+        disciplinaryCourt,
+        districtDirectiveBoard
     }   
 
     // New plate/party instance 
-    const newPlate = new Plate({numero});
+    const newPlate = new Plate({ number });
 
     // Initial data for:
     // Array of users in the req.body
@@ -113,13 +112,13 @@ router.post('/', async(req, res) => {
 
 // READ PLATES
 router.get('/', async (req, res) => {
-    const bodies = ['juntaDirectiva', 'tribunalDisciplinario', 'juntaDirectivaDeCentro'];
-    const seats = ['presidente', 'vicepresidente', 'tesorero', 'secretarioGeneral'];
+    const bodies = ['directiveBoard', 'disciplinaryCourt', 'districtDirectiveBoard'];
+    const seats = ['president', 'vicepresident', 'treasurer', 'generalSecretary'];
     const populations = [];
 
     bodies.forEach(body => {
         seats.forEach(seat => {
-            if (!((body === 'tribunalDisciplinario') && (seat === 'tesorero'))) {
+            if (!((body === 'disciplinaryCourt') && (seat === 'treasurer'))) {
                 populations.push(`${body}.${seat}.user`);
             } 
         })

@@ -10,7 +10,7 @@ const Candidate = require('../../models/Candidate').Candidate
 
 // Test data
 const fakeUsers = require('../test_data/fakeUsers')
-const testUsers = fakeUsers.slice(0, 18)
+const testUsers = fakeUsers.slice(0, 18);
 const testPlate = require('../test_data/fakePlate')
 const testVote = require('../test_data/fakeVote')
 

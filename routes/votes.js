@@ -7,19 +7,19 @@ const Candidate = require('../models/Candidate').Candidate
 //POST REQUEST
 router.post('/', async(req, res) => {
 
-    const { juntaDirectiva, juntaDirectivaDeCentro, tribunalDisciplinario, user } = req.body
+    const { directiveBoard, districtDirectiveBoard, disciplinaryCourt, user } = req.body
 
-    const votoBodies = {
-        juntaDirectiva,
-        juntaDirectivaDeCentro,
-        tribunalDisciplinario
+    const voteBodies = {
+        directiveBoard,
+        districtDirectiveBoard,
+        disciplinaryCourt
     }
 
     let candidates = []
 
-    Object.keys(votoBodies).forEach((body) => {
-        Object.keys(votoBodies[body]).forEach((seat) => {
-            candidates.push(votoBodies[body][seat])
+    Object.keys(voteBodies).forEach((body) => {
+        Object.keys(voteBodies[body]).forEach((seat) => {
+            candidates.push(voteBodies[body][seat])
         })
     })
 
@@ -29,11 +29,11 @@ router.post('/', async(req, res) => {
         const voteUser = await User.findById(user)
         const getCandidates = await Candidate.find({ _id: { $in: candidates }})
 
-        Object.keys(votoBodies).forEach(body => {
-            Object.keys(votoBodies[body]).forEach(seat => {
+        Object.keys(voteBodies).forEach(body => {
+            Object.keys(voteBodies[body]).forEach(seat => {
                 
                 const candidateMatch = getCandidates
-                    .find(candidate => candidate._id.toString() === votoBodies[body][seat])
+                    .find(candidate => candidate._id.toString() === voteBodies[body][seat])
                 
                 if(!newVote[body]) { newVote[body] = {} }     
                 newVote[body][seat] = {}

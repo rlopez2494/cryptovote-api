@@ -1,22 +1,22 @@
 const fakeVote = {
-    juntaDirectiva: {
-        presidente: "",
-        vicepresidente: "",
-        tesorero: "",
-        secretarioGeneral: ""
+    directiveBoard: {
+        president: "",
+        vicepresident: "",
+        treasurer: "",
+        generalSecretary: ""
     },
 
-    juntaDirectivaDeCentro: {
-        presidente: "",
-        vicepresidente: "",
-        tesorero: "",
-        secretarioGeneral: ""
+    districtDirectiveBoard: {
+        president: "",
+        vicepresident: "",
+        treasurer: "",
+        generalSecretary: ""
     },
 
-    tribunalDisciplinario: {
-        presidente: "",
-        vicepresidente: "",
-        secretarioGeneral: ""
+    disciplinaryCourt: {
+        president: "",
+        vicepresident: "",
+        generalSecretary: ""
     },
 
     fechaRegistro: "",
@@ -24,4 +24,4 @@ const fakeVote = {
     usuario: ""
 }
 
-module.exports = fakeVote
+module.exports = fakeVote;

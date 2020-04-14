@@ -12,11 +12,11 @@ module.exports = function createPlate(testPlate, app, done) {
                     throw err
                 }
                  
-                const { juntaDirectiva, juntaDirectivaDeCentro, tribunalDisciplinario } = testPlate
+                const { directiveBoard, districtDirectiveBoard, disciplinaryCourt } = testPlate
                 const testPick = {
-                    juntaDirectiva,
-                    juntaDirectivaDeCentro,
-                    tribunalDisciplinario
+                    directiveBoard,
+                    districtDirectiveBoard,
+                    disciplinaryCourt
                 }
 
                 // Checks if all users are in their respective

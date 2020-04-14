@@ -1,21 +1,25 @@
 const mongoose = require('mongoose')
-const Schema = mongoose.Schema
+const Schema = mongoose.Schema;
 const candidateSchema = require('../Candidate').candidateSchema
 
-tribunalDisciplinarioSchema = new Schema({
-    presidente: {
+directiveBoardSchema = new Schema({
+    president: {
         type: candidateSchema,
         required: true
     },
-    vicepresidente: {
+    vicepresident: {
         type: candidateSchema,
         required: true
     },
-    secretarioGeneral: {
+    treasurer: {
+        type: candidateSchema,
+        required: true
+    },
+    generalSecretary: {
         type: candidateSchema,
         required: true
     }
 })
 
 
-module.exports = tribunalDisciplinarioSchema
+module.exports = directiveBoardSchema;

@@ -1,25 +1,25 @@
 const testPlate = 
 {
-    "numero": 2,
+    "number": 2,
     
-    "juntaDirectiva": {
-        "presidente": '5df696c571f5502c105784b6',
-        "vicepresidente": '5df696c571f5502c105784b7',
-        "tesorero": '5df696c571f5502c105784b8',
-        "secretarioGeneral": '5df696c571f5502c105784ba'
+    "directiveBoard": {
+        "president": '5df696c571f5502c105784b6',
+        "vicepresident": '5df696c571f5502c105784b7',
+        "treasurer": '5df696c571f5502c105784b8',
+        "generalSecretary": '5df696c571f5502c105784ba'
     },
 
-    "tribunalDisciplinario": {
-        "presidente": '5df696c571f5502c105784bb',
-        "vicepresidente": '5df696c571f5502c105784b9',
-        "secretarioGeneral": '5df696c571f5502c105784bc'
+    "disciplinaryCourt": {
+        "president": '5df696c571f5502c105784bb',
+        "vicepresident": '5df696c571f5502c105784b9',
+        "generalSecretary": '5df696c571f5502c105784bc'
     },
 
-    "juntaDirectivaDeCentro": {
-        "presidente": '5df696c571f5502c105784bd',
-        "vicepresidente": '5df6b2ea18a08414fc109b0d',
-        "tesorero": '5df6b3f518a08414fc109b0f',
-        "secretarioGeneral": '5df6b41718a08414fc109b10'
+    "districtDirectiveBoard": {
+        "president": '5df696c571f5502c105784bd',
+        "vicepresident": '5df6b2ea18a08414fc109b0d',
+        "treasurer": '5df6b3f518a08414fc109b0f',
+        "generalSecretary": '5df6b41718a08414fc109b10'
     }
 }
 
