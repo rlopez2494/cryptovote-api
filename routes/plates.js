@@ -1,7 +1,7 @@
 // Modelos
-const User= require('../models/User').User
-const Candidate = require('../models/Candidate').Candidate
-const { Plate, plateSchema } = require('../models/Plate')
+const { User } = require('../models/User');
+const { Candidate } = require('../models/Candidate');
+const { Plate, plateSchema } = require('../models/Plate');
 
 // Toolkit
 const express = require('express');
@@ -23,9 +23,8 @@ router.post('/', async(req, res) => {
         disciplinaryCourt, 
         districtDirectiveBoard, 
         number 
-    } = req.body
-
-
+    } = req.body;
+    
     // Extraction of the different bodies in the plate/party from 'req.body'
     const plateBodies = {
         directiveBoard,
@@ -53,10 +52,10 @@ router.post('/', async(req, res) => {
             users.push(plateBodies[body][seat])
         })
     })
-
+    
     try {
         // Find all the users in req.body
-        const mongoUsers = await User.find({ _id: { $in: users } })
+        const mongoUsers = await User.find({ CIV: { $in: users } });
         
         Object.keys(plateBodies).forEach((body) => {
             const bodySeats = Object.keys(plateBodies[body])
@@ -65,7 +64,7 @@ router.post('/', async(req, res) => {
                 // Findind the user who belongs to a specific body in a specific seat
                 const matchUser = mongoUsers
                     .find( (user) => 
-                        (user._id.toString() === plateBodies[body][seat]))
+                        (user.CIV === plateBodies[body][seat]))
 
                 // New Candidate instance
                 newCandidate = new Candidate({
@@ -78,7 +77,7 @@ router.post('/', async(req, res) => {
 
             })
         })
-
+        
         Promise.all( candidates.map( candidate => candidate.save() ) )
             .then(data => {
 
@@ -86,7 +85,7 @@ router.post('/', async(req, res) => {
                     Object.keys(plateBodies[body]).forEach(seat => {
                         
                         const candidateMatch = data
-                            .find(candidate => candidate.user._id.toString() === plateBodies[body][seat])
+                            .find(candidate => candidate.user.CIV === plateBodies[body][seat])
                         
                         if(!newPlate[body]) {
                     
@@ -105,7 +104,7 @@ router.post('/', async(req, res) => {
             .catch( (err) => res.status(500).send(err) ) 
 
     } catch (err) {
-        return res.status(400).send(err)
+        return res.status(400).send(err);
     }
 
 })
@@ -155,11 +154,74 @@ router.get('/:id', async(req, res) => {
 })  
 
 // DELETE
-router.delete('/', function(req, res) {
-    Plate.deleteMany({}, function(err, data) {
-        if (err) throw err;
-        res.send(data);
-    });
+router.delete('/:id', async(req, res) => {
+    const { id } = req.params;
+
+    try {
+        const plate = await Plate.findById(id);
+        if(!plate) {
+            return res.status(404).send({ error: 'not found' });
+        }
+
+        // Arrow function definition to extract the bodies from the plate
+        const extractBodies = ({
+            directiveBoard,
+            districtDirectiveBoard,
+            disciplinaryCourt
+        }) => ([
+            directiveBoard,
+            districtDirectiveBoard,
+            disciplinaryCourt
+        ])
+
+        // Arrow function definition to extract the ids of 
+        // the candidates in every plate body
+        const extractCandidatesIds = ({
+            president,
+            vicepresident,
+            treasurer,
+            generalSecretary
+        }) => {
+            const candidatesIds = []
+            candidatesIds.push(
+                president._id, 
+                vicepresident._id, 
+                generalSecretary._id
+            )
+            
+            // Disciplinary Court doesnt have a treasurer
+            if (treasurer !== undefined) {
+                candidatesIds.push(treasurer._id)
+            }
+            
+            return candidatesIds
+        }
+        
+        // Extracting the array of bodies from the plate
+        const plateBodies = extractBodies(plate);
+
+        // Array initialization for all the candidates Ids
+        let idsArray = [];
+
+        // Extracting all the candidates ids from every plate body
+        plateBodies.forEach((body) => {
+            const bodyIds = extractCandidatesIds(body);
+            idsArray.push(...bodyIds); 
+        })
+
+        await Candidate.deleteMany({ _id: idsArray });
+        await Plate.findByIdAndRemove(id);
+        
+        res.send({ status: 'Plate deleted successfully' });
+    } catch (err) {
+        console.log(err);
+        res.status(400).send({error: err.message});
+    }
+
+    // Plate.deleteMany({}, function(err, data) {
+    //     if (err) throw err;
+    //     res.send(data);
+    // });
 });
 
 module.exports = router;

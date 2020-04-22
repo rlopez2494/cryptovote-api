@@ -10,14 +10,15 @@ const Candidate = require('../../models/Candidate').Candidate
 
 // Test data
 const fakeUsers = require('../test_data/fakeUsers')
-const testUsers = fakeUsers.slice(0, 18);
+const testUsers = fakeUsers;
 const testPlate = require('../test_data/fakePlate')
 const testVote = require('../test_data/fakeVote')
+const testCIVPlate = require('../test_data/fakeCIVPlate');
 
 // Creators
 const createPlate = require('../creators/plate_create')
 
-describe('Plate/party request handling', () => {
+describe('Vote request handling', () => {
 
     // Save users and a plate/party before test begins
     beforeEach((done) => { 
@@ -32,7 +33,7 @@ describe('Plate/party request handling', () => {
                 data.forEach( result => {
                     assert(typeof(result) === 'object')
                 })
-                createPlate(testPlate, app, done)
+                createPlate(testCIVPlate, app, done)
             })
             .catch(err => {
                 throw err
@@ -60,7 +61,7 @@ describe('Plate/party request handling', () => {
                 })
             })
 
-            vote.user = user
+            // vote.user = user
 
             supertest(app)
                 .post('/votes')

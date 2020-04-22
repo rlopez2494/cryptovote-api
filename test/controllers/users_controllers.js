@@ -45,7 +45,7 @@ describe('Users controllers ', () => {
         
     });
 
-    it('Read user by ID', (done) => {
+    xit('Read user by ID', (done) => {
         supertest(app)
             .get(`/users/${newUser._id.toString()}`)
             .end((err, response) => {

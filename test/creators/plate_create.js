@@ -7,12 +7,11 @@ module.exports = function createPlate(testPlate, app, done) {
             .post('/plates')
             .send(testPlate)
             .end((err, response) => {
-
                 if(err) {
                     throw err
                 }
                  
-                const { directiveBoard, districtDirectiveBoard, disciplinaryCourt } = testPlate
+                const { directiveBoard, districtDirectiveBoard, disciplinaryCourt } = testPlate;
                 const testPick = {
                     directiveBoard,
                     districtDirectiveBoard,
@@ -23,8 +22,8 @@ module.exports = function createPlate(testPlate, app, done) {
                 // seats and bodies as candidates
                 Object.keys(testPick).forEach( body => {
                     Object.keys(testPlate[body]).forEach( seat => {
-                        const _id = response.body[body][seat].user._id.toString()
-                        assert(testPick[body][seat] === _id)
+                        const CIV = response.body[body][seat].user.CIV
+                        assert(testPick[body][seat] === CIV)
                     })
                 })
 

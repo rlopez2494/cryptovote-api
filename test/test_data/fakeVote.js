@@ -19,7 +19,7 @@ const fakeVote = {
         generalSecretary: ""
     },
 
-    fechaRegistro: "",
+    registerDate: "",
 
     usuario: ""
 }

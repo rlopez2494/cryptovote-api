@@ -10,8 +10,9 @@ const { User } = require('../../models/User');
 
 // Test data
 const fakeUsers = require('../test_data/fakeUsers');
-const testUsers = fakeUsers.slice(0, 18);
+const testUsers = fakeUsers;
 const testPlate = require('../test_data/fakePlate');
+const testCIVPlate = require('../test_data/fakeCIVPlate');
 
 // Creators
 const createPlate = require('../creators/plate_create');
@@ -31,7 +32,7 @@ describe('Plate/party request handling', () => {
                 data.forEach( result => {
                     assert(typeof(result) === 'object')
                 })
-                createPlate(testPlate, app, done)
+                createPlate(testCIVPlate, app, done)
             })
             .catch(err => {
                 throw err
@@ -68,4 +69,21 @@ describe('Plate/party request handling', () => {
                     })
             })
     });
+
+    it('Finds a candidate by a user id', (done) => {
+        const { _id } = testUsers[0];
+
+        supertest(app)
+            .get('/candidates/' + _id)
+            .end((err, response) => {
+
+                if(err) {
+                    console.log(err)
+                    throw err;
+                }
+
+                assert(response.body.user === _id);
+                done()
+            })
+    })
 });

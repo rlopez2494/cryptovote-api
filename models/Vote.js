@@ -1,5 +1,5 @@
-const mongoose = require('mongoose')
-const Schema = mongoose.Schema
+const mongoose = require('mongoose');
+const Schema = mongoose.Schema;
 
 const directiveBoardSchema = require('./schemas/directiveBoard');
 const districtDirectiveBoardSchema = require('../models/schemas/districtDirectiveBoard');
@@ -22,14 +22,14 @@ const voteSchema = new Schema({
         required: true
     },
 
-    fechaRegistro:{
+    registerDate:{
         type: Date,
     },
 
     user: {
         type: Schema.Types.ObjectId,
         ref: 'Usuario',
-        required: true
+        // required: true (User is not available yet)
     }
     
 })

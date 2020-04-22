@@ -1,6 +1,7 @@
 //Express imports
 const express = require('express');
 let router = express.Router();
+const testUsers = require('../test/test_data/fakeUsers');
 
 // Sesion toolkit
 const authenticate = require('../middleware/authenticate');
@@ -11,13 +12,20 @@ const { User } = require('../models/User');
 
 //Routers
 
-//GET request all
-router.get('/', function(req, res) {
+// GET request all
+router.get('/', async (req, res) => {
 
     User.find({}, function(err, data) {
         if (err) throw err;
         res.send(data);
     })
+
+    // testUsers.forEach(async(user) => {
+    //     const newUser = new User({ ...user });
+    //     await newUser.save()
+    // })
+
+    // res.send('epas')
 });
 
 // Login Users
@@ -37,26 +45,25 @@ router.post('/login', async (req, res) => {
 })
 
 
-// GET request by ID
-router.get('/:id', async(req, res) => {
-    const _id = req.params.id;
+// // GET request by ID
+// router.get('/:id', async(req, res) => {
+//     const _id = req.params.id;
 
-    try {
-        const user = await User.findById(_id);
-        if(!user) {
-            return res.status(404).send();
-        }
-        res.send(user);
+//     try {
+//         const user = await User.findById(_id);
+//         if(!user) {
+//             return res.status(404).send();
+//         }
+//         res.send(user);
 
-    } catch (err) {
-        res.status(400).send(err);
-    }
+//     } catch (err) {
+//         res.status(400).send(err);
+//     }
+// });
 
-});
-
-// GET User List By CIV
+// GET User list By CIV
 router.get('/list/:id', async(req, res) => {
-    
+
     try {
 
         const users = await User.find({
@@ -64,7 +71,7 @@ router.get('/list/:id', async(req, res) => {
         }, '_id nombre apellido CIV');
     
         if(!(users.length > 0)) {
-            return res.status(404).send( { status: 'not found' } );
+            return res.status(404).send({ status: 'not found' });
         }
 
         res.send(users);   
@@ -72,25 +79,23 @@ router.get('/list/:id', async(req, res) => {
     } catch (error) {
         res.status(400).send(error);
     }
+
 });
 
-// GET User List By CIV
+// GET User by CIV
 
-router.post('/list', async(req, res) => {
-    
+router.get('/:CIV', async(req, res) => {
+
     try {
-
-        console.log(req.body);
-        const users = await User.find({_id: { $in: req.body.users}});
-        if(!(users.length > 0)) {
-            return res.status(404)
+        const { CIV } = req.params;
+        const user = await User.findOne({ CIV });
+        if(!user) {
+            return res.status(404).send({ error: 'User not found'});
         }
-        res.send(users);
+        res.send(user);
 
     } catch (error) {
-
         res.status(500).send(error);
-        
     }
 });
 

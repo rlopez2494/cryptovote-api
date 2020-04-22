@@ -1,13 +1,13 @@
 const express = require('express');
 const router = express.Router();
-const Vote = require('../models/Vote').Vote;
-const User = require('../models/User').User
-const Candidate = require('../models/Candidate').Candidate
+const { Vote } = require('../models/Vote');
+const { User } = require('../models/User');
+const { Candidate } = require('../models/Candidate');
 
 //POST REQUEST
 router.post('/', async(req, res) => {
-
-    const { directiveBoard, districtDirectiveBoard, disciplinaryCourt, user } = req.body
+    
+    const { directiveBoard, districtDirectiveBoard, disciplinaryCourt } = req.body
 
     const voteBodies = {
         directiveBoard,
@@ -24,11 +24,11 @@ router.post('/', async(req, res) => {
     })
 
     const newVote = new Vote({})
-
+    
     try {
-        const voteUser = await User.findById(user)
+        
         const getCandidates = await Candidate.find({ _id: { $in: candidates }})
-
+        
         Object.keys(voteBodies).forEach(body => {
             Object.keys(voteBodies[body]).forEach(seat => {
                 
@@ -41,17 +41,15 @@ router.post('/', async(req, res) => {
                 
             })
         })
-
-        newVote.user = voteUser
         
         const savedVote = await newVote.save()
-
+        
         getCandidates.forEach( candidate => {
             candidate.votes.push(savedVote)
         })
 
         Promise.all(getCandidates.map(candidate => candidate.save()))
-            .then((candidates) => { res.send(candidates) })
+            .then(() => { res.send(savedVote) })
 
     } catch (err) {
         res.status(400).send(err)
