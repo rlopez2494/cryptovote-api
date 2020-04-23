@@ -41,7 +41,7 @@ describe('Vote request handling', () => {
         
     });
 
-    it('makes nominal votes', async() => {
+    xit('makes nominal votes', async() => {
 
         let vote = {
             ...testVote

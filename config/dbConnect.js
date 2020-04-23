@@ -6,7 +6,8 @@ function dbConnect() {
 
         mongoose.connect('mongodb://127.0.0.1:27017/cryptovote', {
             useNewUrlParser: true,
-            useFindAndModify: false
+            useFindAndModify: false,
+            useUnifiedTopology: true
         });
 
         mongoose.connection.once('open', function() {

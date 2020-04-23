@@ -6,19 +6,19 @@ const jwt = require('jsonwebtoken');
 const Schema = mongoose.Schema
 
 const userSchema = new Schema({
-    nombre: {
+    name: {
         type: String,
         trim: true,
     },
-    apellido: {
+    lastName: {
         type: String,
         trim: true,
     },
     email: {
         type: String,
-        // unique: true,
+        unique: true,
         trim: true,
-        // required: true,
+        required: true,
         lowercase: true,
         validate (value) {
             if (!validator.isEmail(value)) {
@@ -26,31 +26,13 @@ const userSchema = new Schema({
             }
         }
     },
-    CIV: {
-        type: Number,
-        trim: true
-    },
-    cedula: {
-        type: Number,
-        trim: true,
-    },
-    isAdmin: {
-        type: Boolean,
-        default: false,
-        required: true,
-    },
     voto: {
         type: Schema.Types.ObjectId,
         ref: 'Voto'
     },
-    sesion: {
-        type: Boolean,
-        default: false,
-        required: true
-    },
     password: {
         type: String,
-        // required: true,
+        required: true,
         minlength: 7,
         trim: true,
     },

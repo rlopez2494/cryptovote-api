@@ -1,5 +1,5 @@
 // Modelos
-const { User } = require('../models/User');
+const { CIVUser } = require('../models/User.civ');
 const { Candidate } = require('../models/Candidate');
 const { Plate, plateSchema } = require('../models/Plate');
 
@@ -55,7 +55,7 @@ router.post('/', async(req, res) => {
     
     try {
         // Find all the users in req.body
-        const mongoUsers = await User.find({ CIV: { $in: users } });
+        const mongoUsers = await CIVUser.find({ CIV: { $in: users } });
         
         Object.keys(plateBodies).forEach((body) => {
             const bodySeats = Object.keys(plateBodies[body])

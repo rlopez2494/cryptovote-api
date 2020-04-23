@@ -6,7 +6,7 @@ const app = require('../../app')
 // Mongoose requests
 const User = require('../../models/User').User
 
-describe('Users controllers ', () => {
+describe.skip('Users controllers ', () => {
 
     let newUser
 

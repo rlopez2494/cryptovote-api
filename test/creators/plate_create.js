@@ -1,7 +1,6 @@
 const supertest = require('supertest')
 const assert = require('assert')
 
-
 module.exports = function createPlate(testPlate, app, done) {
     supertest(app)
             .post('/plates')
@@ -17,7 +16,7 @@ module.exports = function createPlate(testPlate, app, done) {
                     districtDirectiveBoard,
                     disciplinaryCourt
                 }
-
+                
                 // Checks if all users are in their respective
                 // seats and bodies as candidates
                 Object.keys(testPick).forEach( body => {

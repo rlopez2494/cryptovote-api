@@ -6,7 +6,7 @@ const candidateSchema = new Schema({
     user: {
         required: true,
         type: Schema.Types.ObjectId,
-        ref: 'User'
+        ref: 'CIVUser'
     },
     party: {
         type: Schema.Types.ObjectId,

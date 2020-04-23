@@ -6,12 +6,11 @@ const mongoose = require('mongoose');
 
 // Mongoose toolkit
 const { Plate } = require('../../models/Plate');
-const { User } = require('../../models/User');
+const { CIVUser } = require('../../models/User.civ');
 
 // Test data
 const fakeUsers = require('../test_data/fakeUsers');
 const testUsers = fakeUsers;
-const testPlate = require('../test_data/fakePlate');
 const testCIVPlate = require('../test_data/fakeCIVPlate');
 
 // Creators
@@ -23,7 +22,7 @@ describe('Plate/party request handling', () => {
     beforeEach((done) => { 
         let users = [];
         testUsers.forEach((user) => {
-            const newUser = new User(user);
+            const newUser = new CIVUser(user);
             users.push(newUser);
         })
 
@@ -32,6 +31,7 @@ describe('Plate/party request handling', () => {
                 data.forEach( result => {
                     assert(typeof(result) === 'object')
                 })
+                
                 createPlate(testCIVPlate, app, done)
             })
             .catch(err => {
