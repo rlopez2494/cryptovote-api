@@ -5,8 +5,11 @@ const { Candidate } = require('../models/Candidate');
 const express = require('express');
 const router = express.Router();
 
+// Authorizarion middleware
+const authenticate = require('../middleware/authenticate');
+
 // Get candidate by user id
-router.get('/:id', async(req, res) => {
+router.get('/:id', authenticate, async(req, res) => {
     try {
         const { id } = req.params;
         

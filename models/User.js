@@ -9,10 +9,12 @@ const userSchema = new Schema({
     name: {
         type: String,
         trim: true,
+        required: true
     },
     lastName: {
         type: String,
         trim: true,
+        required: true
     },
     email: {
         type: String,
@@ -36,22 +38,26 @@ const userSchema = new Schema({
         minlength: 7,
         trim: true,
     },
-    tokens: [{
-        token: {
-            type: String,
-            required: true
-        }
-    }]
+    token: {
+        type: String
+    }
 });
 
 userSchema.methods.generateAuthToken = async function() {
     const user = this;
     const { _id } = user;
-    const token = jwt.sign({ _id }, 'testKey');
-    user.tokens = user.tokens.concat({ token });
+    const token = jwt.sign({ _id }, 'testKey', {expiresIn: '1 hour'});
+    user.token = token;
     await user.save();
+}
 
-    return token;
+userSchema.methods.toJSON = function () {
+    const user = this;
+    const userObject = user.toObject();
+
+    delete userObject.password;
+
+    return userObject;
 }
 
 userSchema.statics.findByCredentials = async (email, password) => {
@@ -68,13 +74,14 @@ userSchema.statics.findByCredentials = async (email, password) => {
         throw Error("Invalid User/Password");
     }
 
-    return user;
-    
+    return user; 
 }
 
+// Hash the plain text password before saving
 userSchema.pre('save', function (next) {
     const user = this;
 
+    // Check if the user has changed the password before hashing it 
     if (user.isModified('password')) {
         user.password = bcrypt.hashSync(user.password, 8);
     }
@@ -82,6 +89,6 @@ userSchema.pre('save', function (next) {
     next();
 });
 
-const User = mongoose.model('User', userSchema)
+const User = mongoose.model('User', userSchema);
 
 module.exports = { User, userSchema }

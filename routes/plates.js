@@ -10,13 +10,15 @@ const mongoose = require('mongoose')
 const deepPopulate = require('mongoose-deep-populate')(mongoose);
 plateSchema.plugin(deepPopulate);
 
+// Authorizarion middleware
+const authenticate = require('../middleware/authenticate');
+
 function getNameByValue(object, value) {
     return Object.keys(object).find( (key) => object[key] === value )
 }
 
-
-// CREATE
-router.post('/', async(req, res) => {
+// CREATE PLATE
+router.post('/', authenticate, async(req, res) => {
 
     const { 
         directiveBoard, 
@@ -110,7 +112,7 @@ router.post('/', async(req, res) => {
 })
 
 // READ PLATES
-router.get('/', async (req, res) => {
+router.get('/', authenticate, async (req, res) => {
     const bodies = ['directiveBoard', 'disciplinaryCourt', 'districtDirectiveBoard'];
     const seats = ['president', 'vicepresident', 'treasurer', 'generalSecretary'];
     const populations = [];
@@ -154,7 +156,7 @@ router.get('/:id', async(req, res) => {
 })  
 
 // DELETE
-router.delete('/:id', async(req, res) => {
+router.delete('/:id', authenticate, async(req, res) => {
     const { id } = req.params;
 
     try {
@@ -218,10 +220,6 @@ router.delete('/:id', async(req, res) => {
         res.status(400).send({error: err.message});
     }
 
-    // Plate.deleteMany({}, function(err, data) {
-    //     if (err) throw err;
-    //     res.send(data);
-    // });
 });
 
 module.exports = router;

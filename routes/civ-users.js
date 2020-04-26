@@ -4,6 +4,9 @@ let router = express.Router();
 // Models
 const { CIVUser } = require('../models/User.civ');
 
+// Authorizarion middleware
+const authenticate = require('../middleware/authenticate');
+
 // Face CIV Users
 const civUsers = require('../test/test_data/fakeUsers');
 
@@ -16,7 +19,7 @@ router.post('/', (req, res) => {
 });
 
 // GET User list By CIV
-router.get('/list/:id', async(req, res) => {
+router.get('/list/:id', authenticate, async(req, res) => {
 
     try {
 
@@ -38,7 +41,7 @@ router.get('/list/:id', async(req, res) => {
 
 // GET User by CIV
 
-router.get('/:CIV', async(req, res) => {
+router.get('/:CIV', authenticate, async(req, res) => {
 
     try {
         const { CIV } = req.params;

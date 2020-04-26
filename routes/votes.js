@@ -4,8 +4,11 @@ const { Vote } = require('../models/Vote');
 const { User } = require('../models/User');
 const { Candidate } = require('../models/Candidate');
 
-//POST REQUEST
-router.post('/', async(req, res) => {
+// Authorizarion middleware
+const authenticate = require('../middleware/authenticate');
+
+//POST REQUEST (Create vote)
+router.post('/', authenticate, async(req, res) => {
     
     const { directiveBoard, districtDirectiveBoard, disciplinaryCourt } = req.body
 
