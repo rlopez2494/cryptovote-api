@@ -7,7 +7,7 @@ const { CIVUser } = require('../models/User.civ');
 // Authorizarion middleware
 const authenticate = require('../middleware/authenticate');
 
-// Face CIV Users
+// Fake CIV Users
 const civUsers = require('../test/test_data/fakeUsers');
 
 router.post('/', authenticate,  (req, res) => {
