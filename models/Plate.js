@@ -37,6 +37,12 @@ const plateSchema = new Schema({
         required: true
     },
 
+    owner: {
+        type: Schema.Types.ObjectId,
+        ref: 'CIVUser',
+        required: true
+    }
+
 })
 
 const Plate = mongoose.model('Plate', plateSchema);

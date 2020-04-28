@@ -26,6 +26,8 @@ router.post('/', authenticate, async(req, res) => {
         districtDirectiveBoard, 
         number 
     } = req.body;
+
+    const userId = req.user._id;
     
     // Extraction of the different bodies in the plate/party from 'req.body'
     const plateBodies = {
@@ -35,7 +37,7 @@ router.post('/', authenticate, async(req, res) => {
     }   
 
     // New plate/party instance 
-    const newPlate = new Plate({ number });
+    const newPlate = new Plate({ number, owner: userId });
 
     // Initial data for:
     // Array of users in the req.body
@@ -113,6 +115,8 @@ router.post('/', authenticate, async(req, res) => {
 
 // READ PLATES
 router.get('/', authenticate, async (req, res) => {
+
+    // Variables initialization for deep populations
     const bodies = ['directiveBoard', 'disciplinaryCourt', 'districtDirectiveBoard'];
     const seats = ['president', 'vicepresident', 'treasurer', 'generalSecretary'];
     const populations = [];
@@ -126,7 +130,7 @@ router.get('/', authenticate, async (req, res) => {
     })
     
     try {
-        const plates = await Plate.find({})
+        const plates = await Plate.find({ owner: req.user._id })
             .deepPopulate(populations);
 
         res.send(plates);
@@ -160,7 +164,8 @@ router.delete('/:id', authenticate, async(req, res) => {
     const { id } = req.params;
 
     try {
-        const plate = await Plate.findById(id);
+        const plate = await Plate.findOneAndDelete({ _id: req.params.id, owner: req.user._id });
+        
         if(!plate) {
             return res.status(404).send({ error: 'not found' });
         }

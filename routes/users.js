@@ -28,7 +28,7 @@ router.get('/logout', authenticate, async(req, res) => {
     }
 })
 
-//POST requests (Create User)
+//POST requests (SignUp User)
 router.post('/', async (req, res, next) => {
     const { email } = req.body;
     const newUser = User(req.body);
@@ -55,9 +55,8 @@ router.post('/', async (req, res, next) => {
 
 // Login Users
 router.post('/login', async (req, res) => {
-
+    
     const { email, password } = req.body;
-
     try {
         const user = await User.findByCredentials(email, password);
         await user.generateAuthToken();
@@ -70,17 +69,16 @@ router.post('/login', async (req, res) => {
 })
 
 // PUT requests
-router.put('/:id', authenticate, async( req, res ) => {
-    const _id = req.params.id;
+router.patch('/me', authenticate, async( req, res ) => {
+    const _id = req.user._id;
 
     const updates = Object.keys(req.body);
 
     const allowedUpdates = [
-        'isAdmin',
-        'solvente',
-        'sesion',
-        'password',
-        'email'
+        'name',
+        'lastName',
+        'email',
+        'password'
     ];
 
     const updateAllowed = updates.every((update) => allowedUpdates.includes(update));
@@ -90,19 +88,14 @@ router.put('/:id', authenticate, async( req, res ) => {
     }
 
     try {
-        const user = await User.findById(_id);
-
-        if (!user) {
-            return res.status(404).send();
-        }
 
         updates.forEach((update) => {
-            user[update] = req.body[update];
+            req.user[update] = req.body[update];
         });
 
-        const savedUser = await user.save();
+        await req.user.save();
 
-        res.send(savedUser);
+        res.send(req.user);
 
     } catch (err) {
         res.status(400).send(err);
@@ -110,14 +103,11 @@ router.put('/:id', authenticate, async( req, res ) => {
 });
 
 //DELETE requests
-router.delete('/', async(req, res, next) => {
+router.delete('/me', authenticate,  async(req, res) => {
 
     try {
-        const deleteUserResult = await User.deleteMany({})
-        if (!deleteUserResult) {
-            return res.status(404).send({ error: 'not found' })
-        }
-        res.send(deleteUserResult)
+        await req.user.remove();
+        res.send(req.user);
     } catch (error) {
         res.status(400).send()
     }

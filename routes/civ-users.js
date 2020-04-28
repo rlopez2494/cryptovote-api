@@ -10,7 +10,7 @@ const authenticate = require('../middleware/authenticate');
 // Face CIV Users
 const civUsers = require('../test/test_data/fakeUsers');
 
-router.post('/', (req, res) => {
+router.post('/', authenticate,  (req, res) => {
     civUsers.forEach((user) => {
         const newUser = CIVUser(user);
         newUser.save();
@@ -25,13 +25,15 @@ router.get('/list/:id', authenticate, async(req, res) => {
 
         const users = await CIVUser.find({
             $where: `this.CIV.toString().match(${req.params.id})`
-        }, '_id name lastName CIV');
-    
+        }, '_id name lastName CIV').populate('candidate');
+        
+        
         if(!(users.length > 0)) {
             return res.status(404).send({ status: 'not found' });
         }
 
-        res.send(users);   
+        const nonCandidatesUsers = users.filter(user => (user.candidate.length === 0));
+        res.send(nonCandidatesUsers);   
 
     } catch (error) {
         res.status(400).send(error);
@@ -45,10 +47,12 @@ router.get('/:CIV', authenticate, async(req, res) => {
 
     try {
         const { CIV } = req.params;
-        const user = await CIVUser.findOne({ CIV });
+        const user = await CIVUser.findOne({ CIV }).populate('candidate');
+
         if(!user) {
             return res.status(404).send({ error: 'User not found'});
         }
+
         res.send(user);
 
     } catch (error) {

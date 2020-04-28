@@ -1,5 +1,5 @@
 // Database connection
-require('./config/dbConnect')
+require('./db/dbConnect')
 
 // Express & Toolkit
 const createError = require('http-errors');

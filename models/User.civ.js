@@ -19,6 +19,15 @@ const civUserSchema = new Schema({
     }
 });
 
+civUserSchema.set('toObject', { getters: true });
+civUserSchema.set('toJSON', { getters: true });
+
+civUserSchema.virtual('candidate', {
+    ref: 'Candidate',
+    localField: '_id',
+    foreignField: 'user'
+});
+
 const CIVUser = mongoose.model('CIVUser', civUserSchema);
 
 module.exports = { CIVUser, civUserSchema };
