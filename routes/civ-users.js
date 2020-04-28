@@ -7,26 +7,27 @@ const { CIVUser } = require('../models/User.civ');
 // Authorizarion middleware
 const authenticate = require('../middleware/authenticate');
 
-// Fake CIV Users
-const civUsers = require('../test/test_data/fakeUsers');
-
-router.post('/', authenticate,  (req, res) => {
-    civUsers.forEach((user) => {
-        const newUser = CIVUser(user);
-        newUser.save();
-    })
-    res.send({'message': {'status': 'civ users saved'}})
-});
+// The mockup civ users are stored manually in Mongo Atlas/ Robo 3T
 
 // GET User list By CIV
 router.get('/list/:id', authenticate, async(req, res) => {
 
     try {
 
-        const users = await CIVUser.find({
-            $where: `this.CIV.toString().match(${req.params.id})`
-        }, '_id name lastName CIV').populate('candidate');
-        
+        // Take search parameter and convert it to regular expression
+        const regexSearch = new RegExp(req.params.id)
+
+        const users = await CIVUser.aggregate([
+            {$addFields: {stringCIV: {$toString: '$CIV' }} },
+            {$match: {stringCIV: regexSearch}},
+            // Lookup to populate the 'candidate' virtual property
+            {$lookup: {
+                from: 'candidates', 
+                localField: '_id', 
+                foreignField: 'user', 
+                as: 'candidate'
+            }}
+        ]);
         
         if(!(users.length > 0)) {
             return res.status(404).send({ status: 'not found' });
