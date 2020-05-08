@@ -28,12 +28,12 @@ const voteSchema = new Schema({
 
     user: {
         type: Schema.Types.ObjectId,
-        ref: 'Usuario',
-        // required: true (User is not available yet)
+        ref: 'User',
+        required: true
     }
     
 })
 
-const Vote = mongoose.model('Voto', voteSchema);
+const Vote = mongoose.model('Vote', voteSchema);
 
 module.exports = { Vote, voteSchema }

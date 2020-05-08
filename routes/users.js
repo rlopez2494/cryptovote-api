@@ -84,7 +84,7 @@ router.patch('/me', authenticate, async( req, res ) => {
     const updateAllowed = updates.every((update) => allowedUpdates.includes(update));
 
     if(!updateAllowed) {
-        return res.status(400).send({ error: 'Invalid Operation' });
+        return res.status(400).send({ error: 'INVALID_OPERATION' });
     }
 
     try {

@@ -1,23 +1,22 @@
 const mongoose = require('mongoose')
-const Schema = mongoose.Schema
-const candidateSchema = require('../Candidate').candidateSchema
+const Schema = mongoose.Schema;
 
 districtDirectiveBoardSchema = new Schema({
     president: {
-        type: candidateSchema,
-        required: true
+        type: Schema.Types.ObjectId,
+        ref: 'Candidate'
     },
     vicepresident: {
-        type: candidateSchema,
-        required: true
+        type: Schema.Types.ObjectId,
+        ref: 'Candidate'
     },
     treasurer: {
-        type: candidateSchema,
-        required: true
+        type: Schema.Types.ObjectId,
+        ref: 'Candidate'
     },
     generalSecretary: {
-        type: candidateSchema,
-        required: true
+        type: Schema.Types.ObjectId,
+        ref: 'Candidate'
     }
 })
 

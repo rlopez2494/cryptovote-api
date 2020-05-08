@@ -1,19 +1,18 @@
 const mongoose = require('mongoose')
-const Schema = mongoose.Schema
-const { candidateSchema } = require('../Candidate');
+const Schema = mongoose.Schema;
 
 disciplinaryCourtSchema = new Schema({
     president: {
-        type: candidateSchema,
-        required: true
+        type: Schema.Types.ObjectId,
+        ref: 'Candidate'
     },
     vicepresident: {
-        type: candidateSchema,
-        required: true
+        type: Schema.Types.ObjectId,
+        ref: 'Candidate'
     },
     generalSecretary: {
-        type: candidateSchema,
-        required: true
+        type: Schema.Types.ObjectId,
+        ref: 'Candidate'
     }
 })
 
