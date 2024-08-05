@@ -1,14 +1,11 @@
 // Modelos
 const { CIVUser } = require('../models/User.civ');
 const { Candidate } = require('../models/Candidate');
-const { Plate, plateSchema } = require('../models/Plate');
+const { Plate } = require('../models/Plate');
 
 // Toolkit
 const express = require('express');
 const router = express.Router();
-const mongoose = require('mongoose')
-const deepPopulate = require('mongoose-deep-populate')(mongoose);
-plateSchema.plugin(deepPopulate);
 
 // Authorizarion middleware
 const authenticate = require('../middleware/authenticate');
@@ -58,6 +55,7 @@ router.post('/', authenticate, async(req, res) => {
     })
     
     try {
+        console.log("The plate bodies: ", plateBodies)
         // Find all the users in req.body
         const mongoUsers = await CIVUser.find({ CIV: { $in: users } });
         
@@ -128,6 +126,8 @@ router.get('/', authenticate, async (req, res) => {
             } 
         })
     })
+
+    console.log("The populations: ", populations)
     
     try {
         const plates = await Plate.find({ owner: req.user._id })

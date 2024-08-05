@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const deepPopulate = require('mongoose-deep-populate')(mongoose);
 const Schema = mongoose.Schema
 
 const directiveBoardSchema = 
@@ -44,6 +45,8 @@ const plateSchema = new Schema({
     }
 
 })
+
+plateSchema.plugin(deepPopulate)
 
 const Plate = mongoose.model('Plate', plateSchema);
 
